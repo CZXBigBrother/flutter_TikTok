@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+class MathPoint {
+  MathPoint(this.x, this.y);
+  distanceTo(other) {
+    var dx = x - other.x;
+    var dy = y - other.y;
+    return math.sqrt(dx * dx + dy * dy);
+  }
+
+  var x, y;
+}
+
 class LikeViewController extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -9,25 +20,33 @@ class LikeViewController extends StatefulWidget {
 }
 
 class LikeViewControllerState extends State<LikeViewController> {
+  // 记录时间
   var touchTime = new DateTime.now();
-
+  var touchPoint = new MathPoint(-999, -999);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
       body: GestureDetector(
         onTapUp: (TapUpDetails details) {
+          // 当前时间-上次记录的时间
           var t = new DateTime.now().millisecondsSinceEpoch -
               this.touchTime.millisecondsSinceEpoch;
+          // 获取当前坐标
+          var currentPoint =
+              new MathPoint(details.localPosition.dx, details.localPosition.dy);
+          //计算两次距离
+          var distance = currentPoint.distanceTo(this.touchPoint);
+          // 记录当前时间
           this.touchTime = new DateTime.now();
-          if (t < 300) {
+          // 记录当前坐标
+          this.touchPoint = currentPoint;
+          // 判断两次间隔是否小于300毫秒
+          if (t < 300 && distance < 20) {
             this.touchTime = new DateTime.fromMicrosecondsSinceEpoch(0);
-            print("---onTapUp start---");
-            print(t);
-            print(details.localPosition.dx);
-            print(details.localPosition.dy);
+            // print(details.localPosition.dx);
+            // print(details.localPosition.dy);
             this.showLike(details.localPosition.dx, details.localPosition.dy);
-            print("---onTapUp end---");
           }
         },
         behavior: HitTestBehavior.translucent,
@@ -121,7 +140,8 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
       CurvedAnimation(
         parent: controller,
         curve: Interval(
-          0, 1.0, 
+          0,
+          1.0,
           curve: Curves.ease,
         ),
       ),
@@ -134,7 +154,8 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
       CurvedAnimation(
         parent: controller,
         curve: Interval(
-          0, 1.0, 
+          0,
+          1.0,
           curve: Curves.ease,
         ),
       ),
@@ -147,7 +168,8 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
       CurvedAnimation(
         parent: controller,
         curve: Interval(
-          0, 1.0, 
+          0,
+          1.0,
           curve: Curves.ease,
         ),
       ),
@@ -159,7 +181,8 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
       CurvedAnimation(
         parent: controller,
         curve: Interval(
-          0, 1.0,
+          0,
+          1.0,
           curve: Curves.ease,
         ),
       ),
