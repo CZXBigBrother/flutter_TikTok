@@ -1,5 +1,5 @@
 # flutter_TikTok
-![QQ20191224-093618.gif](https://upload-images.jianshu.io/upload_images/3258209-25d9fef2e2239264.gif?imageMogr2/auto-orient/strip)
+![QQ20191224-093618.gif](https://github.com/CZXBigBrother/flutter_TikTok/blob/master/res/QQ20191224-093618.gif)
 
 项目地址:[https://github.com/CZXBigBrother/flutter_TikTok](https://github.com/CZXBigBrother/flutter_TikTok) 持续效果更新
 # 实现点爱心的效果需要解决的问题
@@ -207,7 +207,7 @@ controller = new AnimationController(
         }
       });
 ```
-![QQ20191224-093618.gif](https://upload-images.jianshu.io/upload_images/3258209-25d9fef2e2239264.gif?imageMogr2/auto-orient/strip)
+![QQ20191224-093618.gif](https://github.com/CZXBigBrother/flutter_TikTok/blob/master/res/QQ20191224-093618.gif)
 
 项目地址:[https://github.com/CZXBigBrother/flutter_TikTok](https://github.com/CZXBigBrother/flutter_TikTok) 持续效果更新
 
