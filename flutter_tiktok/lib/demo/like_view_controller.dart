@@ -22,6 +22,7 @@ class LikeViewController extends StatefulWidget {
 class LikeViewControllerState extends State<LikeViewController> {
   // 记录时间
   var touchTime = new DateTime.now();
+  // 记录坐标
   var touchPoint = new MathPoint(-999, -999);
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,6 @@ class LikeViewControllerState extends State<LikeViewController> {
   }
 
   void showLike(double dx, double dy) {
-    print("onDoubleTap");
     var overlayState = Overlay.of(context);
     OverlayEntry overlayEntry;
     double width = 50;
@@ -109,7 +109,6 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
   double width = 50;
   double height = 50;
   AnimationController controller;
-
   Animation<EdgeInsets> upLocation;
 
   Animation<double> display;
