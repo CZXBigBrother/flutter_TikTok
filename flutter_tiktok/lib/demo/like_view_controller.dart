@@ -4,7 +4,6 @@ import 'dart:math' as math;
 class LikeViewController extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return LikeViewControllerState();
   }
 }
@@ -14,7 +13,6 @@ class LikeViewControllerState extends State<LikeViewController> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       appBar: AppBar(),
       body: GestureDetector(
@@ -83,7 +81,6 @@ class LikeView extends StatefulWidget {
   OverlayEntry overlayEntry;
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
     return LikeViewState();
   }
 }
@@ -95,14 +92,13 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
   AnimationController controller;
 
   Animation<EdgeInsets> upLocation;
-  Animation<double> display;
 
+  Animation<double> display;
   Animation<double> scaleAnimate;
   Animation<double> scaleAnimate2;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller = new AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this)
@@ -118,7 +114,18 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
           }
         }
       });
-    // 动画二组
+    scaleAnimate = Tween<double>(
+      begin: 1.5,
+      end: 1,
+    ).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(
+          0, 1.0, 
+          curve: Curves.ease,
+        ),
+      ),
+    );
     // 向上移动
     upLocation = Tween<EdgeInsets>(
       begin: EdgeInsets.only(top: 20.0),
@@ -127,12 +134,12 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
       CurvedAnimation(
         parent: controller,
         curve: Interval(
-          0, 1.0, //间隔，后40%的动画时间
+          0, 1.0, 
           curve: Curves.ease,
         ),
       ),
     );
-
+    // 动画二组
     display = Tween<double>(
       begin: 1,
       end: 0,
@@ -140,25 +147,11 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
       CurvedAnimation(
         parent: controller,
         curve: Interval(
-          0, 1.0, //间隔，后40%的动画时间
+          0, 1.0, 
           curve: Curves.ease,
         ),
       ),
     );
-
-    scaleAnimate = Tween<double>(
-      begin: 1.5,
-      end: 1,
-    ).animate(
-      CurvedAnimation(
-        parent: controller,
-        curve: Interval(
-          0, 1.0, //间隔，后40%的动画时间
-          curve: Curves.ease,
-        ),
-      ),
-    );
-
     scaleAnimate2 = Tween<double>(
       begin: 1,
       end: 1.5,
@@ -166,7 +159,7 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
       CurvedAnimation(
         parent: controller,
         curve: Interval(
-          0, 1.0, //间隔，后40%的动画时间
+          0, 1.0,
           curve: Curves.ease,
         ),
       ),
@@ -175,7 +168,6 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     controller.forward();
     if (this.step == 0) {
       return AnimatedBuilder(
