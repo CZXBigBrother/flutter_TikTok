@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tiktok/service/navigation_service.dart';
 
+import 'demo/layout_view_controller.dart';
 import 'demo/like_view_controller.dart';
 
 void main() => runApp(MyApp());
@@ -40,6 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text("like pop demo"),
           onTap: () {
             navigationService.cNavigateTo(new LikeViewController());
+          },
+        ),
+        ListTile(
+          title: Text("layout view demo"),
+          onTap: () {
+            navigationService.cNavigateTo(new LayoutViewController());
           },
         ),
       ]).toList()),

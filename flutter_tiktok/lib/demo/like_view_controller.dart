@@ -27,7 +27,9 @@ class LikeViewControllerState extends State<LikeViewController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text("like pop demo"),
+      ),
       body: GestureDetector(
         onTapUp: (TapUpDetails details) {
           // 当前时间-上次记录的时间
@@ -160,6 +162,7 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
       ),
     );
     // 动画二组
+    // 消失动画
     display = Tween<double>(
       begin: 1,
       end: 0,
@@ -173,6 +176,7 @@ class LikeViewState extends State<LikeView> with TickerProviderStateMixin {
         ),
       ),
     );
+    //放大
     scaleAnimate2 = Tween<double>(
       begin: 1,
       end: 1.5,
