@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tiktok/service/navigation_service.dart';
 
-import 'demo/layout_view_controller.dart';
+import 'demo/Layout/layout_view_controller.dart';
 import 'demo/like_view_controller.dart';
 
 void main() => runApp(MyApp());
