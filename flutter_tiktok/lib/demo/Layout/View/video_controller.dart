@@ -76,6 +76,7 @@ class ViewControllerState extends State<VideoController> {
   // 视频播放(假的不是重点)
   Widget getVideo() {
     return Container(
+      color: Colors.black,
       child: Center(
         child: Image.asset(widget.image),
       ),

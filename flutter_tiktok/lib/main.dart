@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tiktok/demo/Video/video_view_controller.dart';
 import 'package:flutter_tiktok/service/navigation_service.dart';
 
 import 'demo/Layout/layout_view_controller.dart';
@@ -47,6 +48,12 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text("layout view demo"),
           onTap: () {
             navigationService.cNavigateTo(new LayoutViewController());
+          },
+        ),
+        ListTile(
+          title: Text("video view demo"),
+          onTap: () {
+            navigationService.cNavigateTo(new VideoViewController());
           },
         ),
       ]).toList()),
