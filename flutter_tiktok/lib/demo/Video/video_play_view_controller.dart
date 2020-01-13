@@ -1,12 +1,19 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_tiktok/demo/Layout/View/right_view.dart';
+import 'package:flutter_tiktok/service/event_bus_service.dart';
 import 'package:flutter_tiktok/service/screen_service.dart';
+import 'package:video_player/video_player.dart';
 
 class VideoController extends StatefulWidget {
   String image;
-  VideoController({Key key, this.image}) : super(key: key);
+  final int positionTag;
+  String video;
+
+  VideoController({Key key, this.image, this.positionTag, this.video})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -17,6 +24,18 @@ class VideoController extends StatefulWidget {
 class ViewControllerState extends State<VideoController> {
   ScrollController scroController = new ScrollController();
   Timer timer;
+  bool videoPrepared = false; //视频是否初始化
+  bool _hideActionButton = true;
+  VideoPlayerController _controller;
+
+  static double h = Platform.isAndroid
+      ? (16 / 9 * ScreenService.width - ScreenService.topSafeHeight <=
+              ScreenService.height
+          ? 16 / 9 * ScreenService.width - ScreenService.topSafeHeight
+          : ScreenService.height)
+      : (16 / 9 * ScreenService.width <= ScreenService.height
+          ? 16 / 9 * ScreenService.width
+          : ScreenService.height);
   void startTimer() {
     int time = 3000;
     timer = Timer.periodic(new Duration(milliseconds: time), (timer) {
@@ -49,38 +68,115 @@ class ViewControllerState extends State<VideoController> {
   void initState() {
     super.initState();
     this.startTimer();
+    _controller = VideoPlayerController.asset(widget.video)
+      ..initialize().then((_) {})
+      ..setLooping(true).then((_) {
+        if (widget.positionTag == 0) {
+          _controller.play();
+          videoPrepared = true;
+        } else {
+          videoPrepared = false;
+        }
+        setState(() {});
+      });
+
+    eventBus.on(keyPlayVideo + widget.positionTag.toString(), (arg) {
+      if (arg == widget.positionTag) {
+        _controller.play();
+        videoPrepared = true;
+        _hideActionButton = true;
+      } else {
+        _controller.pause();
+        _hideActionButton = false;
+      }
+      setState(() {});
+    });
   }
 
   @override
   void dispose() {
     this.scroController.dispose();
     this.timer.cancel();
+    _controller.dispose(); //释放播放器资源
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    print("object_build");
     return getVideoViewMain();
   }
 
   Widget getVideoViewMain() {
     return Stack(
       children: <Widget>[
-        this.getVideo(),
+        GestureDetector(
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.only(top: ScreenService.topSafeHeight),
+                  width: ScreenService.width,
+                  height: h, //h/w = sh/sw
+                  child: VideoPlayer(_controller),
+                ),
+                getPauseView()
+              ],
+            ),
+            onTap: () {
+              if (_controller.value.isPlaying) {
+                _controller.pause();
+                _hideActionButton = false;
+              } else {
+                _controller.play();
+                videoPrepared = true;
+                _hideActionButton = true;
+              }
+              setState(() {});
+            }),
+        // this.getVideo(),
+        getPreviewImg(),
         getLikesView(),
         this.getUserAndTitle()
       ],
     );
   }
 
-  // 视频播放(假的不是重点)
-  Widget getVideo() {
-    return Container(
-      color: Colors.black,
-      child: Center(
-        child: Image.asset(widget.image),
+  getPauseView() {
+    return Offstage(
+      offstage: _hideActionButton,
+      child: Stack(
+        children: <Widget>[
+          Align(
+            child: Container(
+                child: Image.asset('assets/images/ic_playing.png'),
+                height: 50,
+                width: 50),
+            alignment: Alignment.center,
+          )
+        ],
       ),
     );
+  }
+
+  Widget getPreviewImg() {
+    // var url;
+    // HttpController.host.then((onValue) {
+    //   url = onValue + widget.previewImgUrl;
+    // });
+    return Offstage(
+        offstage: videoPrepared,
+        child: Container(
+          color: Colors.black,
+          margin: EdgeInsets.only(top: ScreenService.topSafeHeight),
+          child: Image.asset(
+            widget.image,
+            // getUrl(widget.previewImgUrl),
+            fit: BoxFit.fill,
+            width: ScreenService.width,
+            height: ScreenService.height,
+          ),
+        ));
   }
 
   Widget getMusicTitle() {
