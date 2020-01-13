@@ -1,8 +1,6 @@
 import 'package:flukit/flukit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tiktok/demo/Video/video_play_view_controller.dart';
-import 'package:flutter_tiktok/service/widget_ext_service.dart';
-// import 'package:flutter_tiktok/demo/Layout/View/video_controller.dart';
 import 'package:flutter_tiktok/service/event_bus_service.dart';
 
 class VideoViewController extends StatefulWidget {
